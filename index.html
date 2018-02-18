@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Contacts search</title>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/png" href="img/search.png" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.0/react.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.0/react-dom.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.6.15/browser.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+<body>
+
+    <div id='content'></div>
+
+    <script type="text/babel">
+        var CONTACTS = [
+            {
+                id: 1,
+                name: 'Mary Babajanyan',
+                phoneNumber: '+37498700601',
+                image: 'img/user1.png'
+            }, {
+                id: 2,
+                name: 'Hovhannes Sargsyan',
+                phoneNumber: '+37498700602',
+                image: 'img/user2.png'
+            }, {
+                id: 3,
+                name: 'Naira Baghdasaryan',
+                phoneNumber: '+37498700603',
+                image: 'img/user4.png'
+            }, {
+                id: 4,
+                name: 'Alen Brook',
+                phoneNumber: '+37498700604',
+                image: 'img/user3.png'
+            }, {
+                id: 5,
+                name: 'Mari Gevorgyan',
+                phoneNumber: '+37498700605',
+                image: 'img/user5.png'
+            }, {
+                id: 6,
+                name: 'Tigran Artenyan',
+                phoneNumber: '+37498700606',
+                image: 'img/none.png'
+            }, {
+                id: 7,
+                name: 'Marianna Babayan',
+                phoneNumber: '+37498700607',
+                image: 'img/user6.png'
+            }
+        ];
+
+        var Contact = React.createClass({
+            render: function() {
+                return (
+                    <li className="contact">
+                        <img className="contact-image" src={this.props.image} width="60px" height="60px" />
+                        <div className="contact-info">
+                            <div className="contact-name"> {this.props.name} </div>
+                            <div className="contact-number"> {this.props.phoneNumber} </div>
+                        </div>
+                    </li>
+                );
+            }
+        });
+
+        var ContactsList = React.createClass({
+            getInitialState: function() {
+                return {
+                    displayedContacts: CONTACTS
+                };
+            },
+
+            handleSearch: function(event) {
+                var searchQuery = event.target.value.toLowerCase();
+                var displayedContacts = CONTACTS.filter(function(el) {
+                    var searchValue = el.name.toLowerCase();
+                    return searchValue.indexOf(searchQuery) !== -1;
+                });
+                this.setState({
+                    displayedContacts: displayedContacts
+                });
+            },
+
+            render: function() {
+                return (
+                    <div className="contacts">
+                        <input type="text" placeholder="Search..." className="search-field form-control" onChange={this.handleSearch} />
+                        <ul className="contacts-list">
+                            {
+                               this.state.displayedContacts.map(function(el) {
+                                    return <Contact
+                                        key={el.id}
+                                        name={el.name}
+                                        phoneNumber={el.phoneNumber}
+                                        image={el.image}
+                                    />;
+                               })
+                            }
+                        </ul>
+                    </div>
+                );
+            }
+        });
+        
+        ReactDOM.render(
+            <ContactsList />,
+            document.getElementById("content")
+        );
+
+    </script>
+</body>
+</html>
