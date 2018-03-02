@@ -1,1 +1,2 @@
-# Search-Contacts - small react.js project
+# Search-Contacts 
+Small react.js project.
